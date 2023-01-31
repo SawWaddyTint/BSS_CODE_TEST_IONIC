@@ -8,9 +8,19 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'employee-list',
     pathMatch: 'full'
   },
+  {
+    path: 'add-employee',
+    loadChildren: () => import('./add-employee/add-employee.module').then( m => m.AddEmployeePageModule)
+  },
+  {
+    path: 'employee-list',
+    loadChildren: () => import('./employee-list/employee-list.module').then( m => m.EmployeeListPageModule)
+  },
+
+
 ];
 
 @NgModule({

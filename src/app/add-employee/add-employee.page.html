@@ -1,0 +1,90 @@
+<ion-header>
+  <ion-toolbar color="primary"> 
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="status == 0">Add Employee</ion-title>
+    <ion-title *ngIf="status == 1">{{empName}}</ion-title>
+    <ion-buttons slot="end" *ngIf="status == 1">
+      <ion-button fill="clear" (click)="deleteData()">
+      <ion-icon name="trash"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+  <div class="ion-padding">
+    <form [formGroup]="form" (ngSubmit)="saveDetails()">
+      <ion-list>
+        <ion-item class="ion-margin-bottom">
+          <ion-label position="stacked">Employee Name<span style="color: red;">*</span></ion-label>
+          <ion-input type="text" formControlName="name"></ion-input>
+        </ion-item>
+        <p class="errStyle" *ngIf="submitted && (form.get('name')).errors['required']">Name is required</p>
+
+        
+        <ion-item class="ion-margin-bottom" id="dob">
+          <ion-label>
+            <p>DOB</p>
+            <p>{{defaultDate}}</p>
+          </ion-label>   
+          <ion-modal trigger="dob" [cssClass]="'bottom-end'">
+            <ng-template>
+              <ion-datetime 
+                presentation="date" 
+                size="cover"
+                [showDefaultButtons]="true"
+                [(ngModel)]="defaultDate"
+                (ionChange)="getDate($event)"
+              >
+            </ion-datetime>
+            </ng-template> </ion-modal>
+
+        </ion-item>
+
+
+        <ion-item class="ion-margin-bottom">
+          <ion-label position="stacked">NRC</ion-label>
+          <ion-input type="text" formControlName="nrc"></ion-input>
+        </ion-item>
+
+
+        <ion-item class="ion-margin-bottom">
+          <ion-label position="stacked">Department<span style="color: red;">*</span></ion-label>
+          <ion-select style="padding-top: 2px !important;" formControlName="department"  
+           interface="popover" >
+          <ion-select-option *ngFor="let dept of departmentList">
+            {{dept.name}}
+          </ion-select-option>
+        </ion-select>
+        </ion-item>
+        <p class="errStyle" *ngIf="submitted && (form.get('department')).errors['required']">Department is required</p>
+       
+
+        <ion-item class="ion-margin-bottom">
+          <ion-label position="stacked">Position<span style="color: red;">*</span></ion-label>
+          <ion-select style="padding-top: 2px !important;" formControlName="position"
+           interface="popover">
+          <ion-select-option *ngFor="let p of positions">
+            {{p.title}}
+          </ion-select-option>
+        </ion-select>
+        </ion-item>
+        <p class="errStyle" *ngIf="submitted && (form.get('position')).errors['required']">Position is required</p>
+       
+        <ion-item class="ion-margin-bottom">
+          <ion-label position="stacked">Salary</ion-label>
+          <ion-input  pattern="^[0-9,.]*$" [(ngModel)]="sal" formControlName="salary" (input)="sal = formatSalary(sal)"></ion-input>
+        </ion-item>
+        <p class="errStyle" *ngIf="(form.get('salary')).errors && (form.get('salary')).errors['pattern']">Enter numbers only</p>
+
+    
+        <div class="center">
+          <ion-button color="primary" (click)="onReset()" >Cancel</ion-button>
+          <ion-button color="primary" type="submit" *ngIf="status == 0">Save</ion-button>
+          <ion-button color="primary" type="submit" *ngIf="status == 1">Update</ion-button>        
+        </div>
+        </ion-list>
+    </form>
+  </div>
+</ion-content>

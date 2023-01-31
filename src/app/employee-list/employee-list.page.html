@@ -1,0 +1,47 @@
+
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title *ngIf="filterBy == ''">
+      Employee List
+    </ion-title>
+    <ion-title *ngIf="filterBy != ''">
+    <span style="color:#ccc;font-size: 18px;"> Filter By: </span>{{filterBy}}
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+      <ion-buttons color="primary" slot="end">
+        <ion-button class="btnStyle" (click)="goToSearchPage()"> 
+          Filter
+        </ion-button>
+        <ion-button class="btnStyle" (click)="goToAddPage()"> 
+          New
+        </ion-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="isNotFound" align="center">
+    <h3 style="padding:50px;color:#ccc;">
+      <span>No Result Found</span>
+    </h3>
+  </div>
+  <ion-list *ngIf="!isNotFound">
+      <ion-item class="ion-text-wrap" *ngFor="let employee of employeeList" style="border-bottom: 1px solid #E8E8E8;" detail="true" (click)="gotoDetail(employee)">
+        <ion-label>
+          <div slot="start">
+            <ion-label><span class="uni">Name : {{employee.name}}</span></ion-label>
+            <ion-label><span class="uni" *ngIf="employee.dob != null">DOB : {{employee.dob}}</span></ion-label>
+            <ion-label><span class="uni" *ngIf="employee.nrc != null">NRC : {{employee.nrc}}</span></ion-label>
+            <ion-label><span class="uni">Department : {{employee.department}}</span></ion-label>
+            <ion-label><span class="uni">Position : {{employee.position}}</span></ion-label>
+            <ion-label><span class="uni" *ngIf="employee.salary != ''">Salary : {{employee.salary}}</span></ion-label>          
+          </div>
+        </ion-label>      
+      </ion-item>
+  </ion-list>
+  
+  
+
+</ion-content>
